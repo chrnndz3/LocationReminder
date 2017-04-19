@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ReminderActivity"></activity>
+        <activity android:name=".ShowRemindersActivity"></activity>
     </application>
 
 </manifest>

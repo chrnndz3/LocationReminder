@@ -90,4 +90,11 @@ public class MainActivity extends Activity {
 
         }
     }
+
+    public void onClickShow(View v){
+        if(v.getId() == R.id.showReminder){
+            Intent i = new Intent(MainActivity.this, ShowRemindersActivity.class);
+            startActivity(i);
+        }
+    }
 }

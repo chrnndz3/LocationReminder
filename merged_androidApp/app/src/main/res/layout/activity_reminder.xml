@@ -15,7 +15,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Subject" />
+            android:hint="Subject" />
 
         <EditText
             android:id="@+id/reminderMessage"
@@ -24,7 +24,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="reminder_message" />
+            android:hint="Reminder Message" />
 
         <EditText
             android:id="@+id/radius"
@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="radius" />
+            android:hint="Radius" />
 
         <EditText
             android:id="@+id/location"
@@ -41,8 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="radius" />
+            android:inputType="textPersonName" />
 
         <Button
             android:id="@+id/addAddress"

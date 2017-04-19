@@ -23,6 +23,7 @@ public class ReminderActivity extends AppCompatActivity {
     RemindersDatabase remindersDatabase_obj = new RemindersDatabase(this);
     CalculateDistance distance_obj = new CalculateDistance();
     LocationInfo locationInfo_obj = new LocationInfo();
+    UserInputs userInputs_obj = new UserInputs();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class ReminderActivity extends AppCompatActivity {
                 Log.d("Latitude:", latitude);
                 Log.d("Longitude", longitude);
                 Log.d("Address:", address);
+                String lan_lon = latitude + ":" + longitude;
 
                 locationInfo_obj.setLatitude(place.getLatLng().latitude);
                 locationInfo_obj.setLongitude(place.getLatLng().latitude);
@@ -94,13 +96,19 @@ public class ReminderActivity extends AppCompatActivity {
             EditText reminderMess = (EditText)findViewById(R.id.reminderMessage);
             String reminderMess_str = reminderMess.getText().toString();
 
-            //Inserting info in the database
+            EditText address = (EditText)findViewById(R.id.location);
+            String address_str = address.getText().toString();
+
+            //Inserting info into the database
             UserInputs userInfo_obj = new UserInputs();
+            userInfo_obj.setAddress(address_str);
             userInfo_obj.setSubject(subj_str);
             userInfo_obj.setRadius(rad_str);
             userInfo_obj.setReminders(reminderMess_str);
 
             remindersDatabase_obj.insertInfo(userInfo_obj);
+//            remindersDatabase_obj.deleteDatabase();
+            Toast.makeText(ReminderActivity.this, "Added reminder!", Toast.LENGTH_SHORT).show();
         }
     }
 }

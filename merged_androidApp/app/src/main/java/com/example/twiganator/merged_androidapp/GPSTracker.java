@@ -150,7 +150,6 @@ public class GPSTracker extends Service implements LocationListener {
             latitude = location.getLatitude();
         }
 
-        // return latitude
         return latitude;
     }
 
@@ -163,7 +162,6 @@ public class GPSTracker extends Service implements LocationListener {
             longitude = location.getLongitude();
         }
 
-        // return longitude
         return longitude;
     }
 
