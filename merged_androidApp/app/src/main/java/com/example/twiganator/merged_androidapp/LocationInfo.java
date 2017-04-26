@@ -11,21 +11,21 @@ public class LocationInfo {
     public Double longitude;
     public Double latitude;
 
-    public void setLongitude(Double longitude){
+    public void setLong(Double longitude){
         this.longitude = longitude;
     }
 
-    public Double getLongitude(){
+    public Double getLong(){
         Log.d("GET", String.valueOf(this.longitude));
         return this.longitude;
 
     }
 
-    public void setLatitude(Double latitude){
+    public void setLat(Double latitude){
         this.latitude = latitude;
     }
 
-    public Double getLatitude(){
+    public Double getLat(){
         Log.d("GET", String.valueOf(this.latitude));
         return this.latitude;
 

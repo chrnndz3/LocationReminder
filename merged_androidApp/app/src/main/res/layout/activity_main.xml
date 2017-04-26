@@ -25,4 +25,32 @@
         android:onClick="onClickShow"
         android:text="Show Reminders" />
 
+    <Button
+        android:id="@+id/messenger"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickMessenger"
+        android:text="Send Message" />
+
+    <Button
+        android:id="@+id/setFriendReminder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickFriendReminder"
+        android:text="Set Reminder for Friend" />
+
+    <Button
+        android:id="@+id/showFriendReminder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickShowFriendReminder"
+        android:text="Show friend reminders" />
+
+    <Button
+        android:id="@+id/todoLists"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickTodoList"
+        android:text="Send Group ToDo Lists" />
+
 </LinearLayout>

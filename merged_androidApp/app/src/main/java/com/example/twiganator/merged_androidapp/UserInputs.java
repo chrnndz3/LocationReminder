@@ -12,6 +12,10 @@ public class UserInputs {
     public String reminders;
     public String radius;
     public String subject;
+    public String lat;
+    public String lon;
+    public String date;
+    public String time;
 
     public void setAddress(String address){
         this.address = address;
@@ -44,6 +48,41 @@ public class UserInputs {
     public void setSubject(String subject){
         this.subject = subject;
     }
+
+    public String getLat(){
+        return this.lat;
+    }
+
+    public void setLat(String lat){
+        this.lat = lat;
+    }
+
+    public String getLon(){
+        return this.lon;
+    }
+
+    public void setLon(String lon){
+        this.lon = lon;
+    }
+
+
+    public void setDate(String date){
+        this.date = date;
+    }
+
+    public String getDate(){
+        return this.date;
+    }
+
+    public void setTime(String time){
+        this.time = time;
+    }
+
+    public String getTime(){
+        return this.time;
+    }
+
+
 
 //    public String getLatitude(){
 //        return this.latitude;
