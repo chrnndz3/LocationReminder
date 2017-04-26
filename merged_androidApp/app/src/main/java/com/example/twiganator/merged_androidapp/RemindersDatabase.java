@@ -84,7 +84,6 @@ public class RemindersDatabase extends SQLiteOpenHelper {
         values.put(COLUMN_TIME, info.getTime());
 
         db.insert(TABLE_NAME, null, values);
-//        String ans = checkDatabase();
         db.close();
     }
 
@@ -96,21 +95,9 @@ public class RemindersDatabase extends SQLiteOpenHelper {
         Map<String, String[]> map = new HashMap<String, String[]>();
         Log.d("INSIDE DATABSE", "INSIDE");
         db = this.getReadableDatabase();
-//        String tableString = String.format("Table %s:\n", TABLE_NAME);
 
         Cursor allRows  = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
 
-//        if (allRows.moveToFirst() ){
-//            String[] columnNames = allRows.getColumnNames();
-//            do {
-//                for (String name: columnNames) {
-//                    tableString += String.format("%s: %s\n", name,
-//                            allRows.getString(allRows.getColumnIndex(name)));
-//                }
-//                tableString += "\n";
-//
-//            } while (allRows.moveToNext());
-//        }
         if(allRows != null){
             if(allRows.moveToFirst()){
                 do{
@@ -148,63 +135,34 @@ public class RemindersDatabase extends SQLiteOpenHelper {
         db.execSQL("delete from "+ TABLE_NAME);
     }
 
-    /**
-     * calculates distance between each location from database to the current location
-     */
-    public void distance() {
-        db = this.getWritableDatabase();
-        String tableString = String.format("Table %s:\n", TABLE_NAME);
-        Cursor allRows = db.rawQuery("SELECT address FROM " + TABLE_NAME, null);
-        if (allRows.moveToFirst()) {
-            String[] columnNames = allRows.getColumnNames();
-            do {
-                for (String name : columnNames) {
-                    String address =  allRows.getString(allRows.getColumnIndex(name));
-                    if(address.indexOf("|") != -1){
-                        String latlon = address.substring(address.indexOf("|")+1);
-                        if(latlon.indexOf(";") != -1){
-                            String lat = latlon.substring(0,latlon.indexOf(";"));
-                            String lon = latlon.substring(latlon.indexOf(";")+1);
+//    /**
+//     * calculates distance between each location from database to the current location
+//     */
+//    public void distance() {
+//        db = this.getWritableDatabase();
+//        String tableString = String.format("Table %s:\n", TABLE_NAME);
+//        Cursor allRows = db.rawQuery("SELECT address FROM " + TABLE_NAME, null);
+//        if (allRows.moveToFirst()) {
+//            String[] columnNames = allRows.getColumnNames();
+//            do {
+//                for (String name : columnNames) {
+//                    String address =  allRows.getString(allRows.getColumnIndex(name));
+//                    if(address.indexOf("|") != -1){
+//                        String latlon = address.substring(address.indexOf("|")+1);
+//                        if(latlon.indexOf(";") != -1){
+//                            String lat = latlon.substring(0,latlon.indexOf(";"));
+//                            String lon = latlon.substring(latlon.indexOf(";")+1);
+//
+//                            Double latval = Double.parseDouble(lat);
+//                            Double lonval = Double.parseDouble(lon);
+//                            CalculateDistance obj_distance = new CalculateDistance();
+//                            obj_distance.distanceBetweenGeoPoints(latval,lonval,40.1125909,-88.2268336);
+//                        }
+//                    }
+//                }
+//            } while (allRows.moveToNext());
+//        }
+//    }
 
-                            Double latval = Double.parseDouble(lat);
-                            Double lonval = Double.parseDouble(lon);
-                            CalculateDistance obj_distance = new CalculateDistance();
-                            obj_distance.distanceBetweenGeoPoints(latval,lonval,40.1125909,-88.2268336);
-                        }
-                    }
-                }
-            } while (allRows.moveToNext());
-        }
-    }
-
-    public Map getFullAddresses(){
-        Map<String, String[]> map = new HashMap<String, String[]>();
-        Log.d("INSIDE DATABSE", "INSIDE");
-        db = this.getReadableDatabase();
-
-        Cursor allRows  = db.rawQuery("select address, reminders from" + TABLE_NAME, null);
-
-        if(allRows != null){
-            if(allRows.moveToFirst()){
-                do{
-                    String address = allRows.getString(allRows.getColumnIndex("address"));
-
-                    if(address.indexOf("|") != -1) {
-                        String latlon = address.substring(address.indexOf("|") + 1);
-                        if (latlon.indexOf(";") != -1) {
-                            String lat = latlon.substring(0, latlon.indexOf(";"));
-                            String lon = latlon.substring(latlon.indexOf(";") + 1);
-                            String radius = allRows.getString(allRows.getColumnIndex("radius"));
-                            address = address.substring(0, address.indexOf("|"));
-                            String[] value = {lat, lon, radius};
-                            map.put(address, value);
-                        }
-                    }
-                }while (allRows.moveToNext());
-            }
-        }
-
-        return map;
-    }
 
 }//class

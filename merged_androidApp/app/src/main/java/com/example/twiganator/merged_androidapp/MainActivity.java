@@ -2,7 +2,6 @@ package com.example.twiganator.merged_androidapp;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -10,15 +9,7 @@ import android.test.mock.MockPackageManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.support.v4.app.NotificationCompat;
-import android.app.NotificationManager;
-import android.content.Context;
-import android.app.Notification;
-import android.widget.EditText;
-import android.widget.Toast;
-import android.support.v4.app.NotificationCompat.Builder;
 
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -49,6 +40,13 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
+        Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                messages_obj.sendMessages();
+            }
+        },0, 10000);
 
 //        btnReminder = (Button) findViewById(R.id.addReminder);
 //        btnReminder.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +112,7 @@ public class MainActivity extends Activity {
 
     public void onAddReminderClick(View v){
         if(v.getId() == R.id.addReminder){
+            this.reminderBtnclicked = true;
             gps = new GPSTracker(MainActivity.this);
 
             // check if GPS enabled
@@ -156,7 +155,6 @@ public class MainActivity extends Activity {
 //                    Toast t = Toast.makeText(MainActivity.this, "Passwords don't match", Toast.LENGTH_LONG);
 //                    t.show();
 //                    t.cancel();
-                setReminderBtnclicked(true);
                 Log.d("ReminderBTN", "TRUE");
                 Intent i = new Intent(MainActivity.this, ReminderActivity.class);
                 startActivity(i);
@@ -170,33 +168,8 @@ public class MainActivity extends Activity {
 
         }
 
-        Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                messages_obj.sendMessages();
-            }
-        },0, 10000);
+
     }
-
-    // Home page will call this fuction when Show reminder is clicked on
-//    public void onClickShow(View v){
-//        if(v.getId() == R.id.showReminder){
-//            Intent i = new Intent(MainActivity.this, ShowRemindersActivity.class);
-//
-//            startActivity(i);
-//        }
-//    }
-
-
-    public void setReminderBtnclicked(Boolean non_clicked){
-        this.reminderBtnclicked = non_clicked;
-    }
-
-    public Boolean getReminderBtnclicked(){
-        return this.reminderBtnclicked;
-    }
-
 
     public void onClickShow(View v){
         if(v.getId() == R.id.showReminder){

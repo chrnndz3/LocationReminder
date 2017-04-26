@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.widget.ImageView;
 
 import java.util.Date;
 
@@ -24,7 +25,7 @@ public class Notifications {
                         .setAutoCancel(true)
                         .setContentTitle(subject.toUpperCase())
                         .setContentText(reminders)
-                        .addAction(R.drawable.cancel_x, "Dismiss", dismissIntent);
+                        .addAction(R.drawable.ic_stat_name, "Did it already", dismissIntent);
 
         //Vibrate when notification is sent
         builder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });

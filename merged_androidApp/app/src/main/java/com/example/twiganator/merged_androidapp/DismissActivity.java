@@ -29,7 +29,6 @@ public class DismissActivity extends Activity{
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(NOTIFICATION_ID, notificationId);
 
-        Log.d("DAAAATTTTTAAA ------", intent.getExtras().toString());
         PendingIntent dismissIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         return dismissIntent;
     }

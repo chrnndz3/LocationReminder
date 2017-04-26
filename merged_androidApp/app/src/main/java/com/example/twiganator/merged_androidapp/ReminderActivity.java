@@ -181,8 +181,8 @@ public class ReminderActivity extends AppCompatActivity implements DatePickerDia
             userInfo_obj.setDate(date_str);
             userInfo_obj.setTime(time_str);
 
-            remindersDatabase_obj.insertInfo(userInfo_obj);
-//            remindersDatabase_obj.deleteDatabase();
+            //remindersDatabase_obj.insertInfo(userInfo_obj);
+            remindersDatabase_obj.deleteDatabase();
             Toast.makeText(ReminderActivity.this, "Added reminder!", Toast.LENGTH_SHORT).show();
         }
     }

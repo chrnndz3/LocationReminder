@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
@@ -198,8 +200,9 @@ public class GPSTracker extends Service implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
 
+        String str = String.valueOf(MainActivity.reminderBtnclicked);
+        Log.d("REMINDER BOOLEAN", str);
         //if(main_obj.getReminderBtnclicked() != true){
-            Log.d("ReminderBTN", "FALSE");
             String msg = "New Latitude: " + location.getLatitude()
                     + " New Longitude: " + location.getLongitude();
 
@@ -210,7 +213,7 @@ public class GPSTracker extends Service implements LocationListener {
             Map<String, String[]> results = obj_reminders.checkDatabase();
 
             if(results.isEmpty()){
-                Log.d("EMPTY - GPST TRACKER", "is empty");
+                Log.d("DATABASE", " IS EMPTY");
             }
             else{
                 for (Map.Entry<String, String[]> entry : results.entrySet()) {
@@ -220,40 +223,30 @@ public class GPSTracker extends Service implements LocationListener {
                     Double latval = Double.parseDouble(values[3]);
                     Double lonval = Double.parseDouble(values[4]);
                     Integer radiusval = Integer.parseInt(values[2]);
+
                     String reminders = values[1];
-                    Log.d("RADIUS", values[2]);
+                    Log.d("TIME", values[6]);
+                    Log.d("DATE", values[5]);
                     Double dist = distance_obj.distanceBetweenGeoPoints(location.getLatitude(),location.getLongitude(), latval, lonval);
 
-                    if(dist <= radiusval){
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                    Date date = new Date();
+                    String dateTime = dateFormat.format(date);
+                    String currentDate = dateTime.substring(0,dateTime.indexOf(" "));
+                    String currentTime = dateTime.substring(dateTime.indexOf(" ")+1);
+
+
+                    if(dist <= radiusval || (values[5].equals(currentDate) && values[6].equals(currentTime))){
                         Notifications notifications_obj = new Notifications();
                         notifications_obj.sendNotification(subject, reminders, this.mContext);
 
                     }
                 }
             }
-            main_obj.setReminderBtnclicked(false);
+            MainActivity.reminderBtnclicked = false;
+            Log.d("REMINDER BOOLEAN FALSE", String.valueOf(MainActivity.reminderBtnclicked));
         }
 
-    //}
-
-//    public void sendNotification(String subject, String reminders){
-//        NotificationCompat.Builder builder =
-//                new NotificationCompat.Builder(this.mContext)
-//                        .setSmallIcon(R.drawable.r)
-//                        .setAutoCancel(true)
-//                        .setContentTitle(subject)
-//                        .setContentText(reminders);
-//
-//        builder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
-//
-//        Context context = this.mContext;
-//        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT);
-//        builder.setContentIntent(contentIntent);
-//
-//        NotificationManager manager = (NotificationManager) this.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-//        int notificationID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
-//        manager.notify(notificationID, builder.build());
-//    }
 
     @Override
     public void onProviderDisabled(String provider) {

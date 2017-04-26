@@ -31,10 +31,6 @@ public class ShowRemindersActivity extends ListActivity {
         {
             String[] values = results.get(key);
             String address = values[1];
-            Double latval = Double.parseDouble(values[3]);
-            Double lonval = Double.parseDouble(values[4]);
-            CalculateDistance obj_distance = new CalculateDistance();
-            String distance = Double.toString(obj_distance.distanceBetweenGeoPoints(latval,lonval,40.1125909,-88.2268336));
 
             String toSHow = key.toUpperCase() + "\nReminder : " + values[0]+ "\nLocation : "
                     + address+"\nDate : "+values[5]+"\nTime : "+values[6];
