@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.google.android.gms.games.appcontent.AppContentTuple;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ import java.util.HashMap;
 public class RemindersDatabase extends SQLiteOpenHelper {
 
     private static final int DATA_VERSION= 1;
-    private static final String DATABASE_NAME = "app.db";
+    private static final String DATABASE_NAME = "app2.db";
     private static final String TABLE_NAME = "reminders";
     private static final String COLUMN_ADDRESS = "address";
     private static final String COLUMN_REMINDERS = "reminders";
@@ -31,10 +32,12 @@ public class RemindersDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_SUBJECT = "subject";
     private static final String COLUMN_DATE = "date";
     private static final String COLUMN_TIME = "time";
+    private static final String REMINDER_ID = "reminder_id";
+
 
     SQLiteDatabase db;
 
-    private static final String TABLE_CREATE = "create table reminders (id integer primary key not null , " +
+    private static final String TABLE_CREATE = "create table reminders (reminder_id int not null , " +
             "address text not null, reminders text not null, radius text not null, subject text not null,date text not null,time text not null );";
 
     public RemindersDatabase(Context context){
@@ -62,20 +65,21 @@ public class RemindersDatabase extends SQLiteOpenHelper {
     public void insertInfo(UserInputs info){
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+//        Log.d("REMINDER ID", String.valueOf(info.getID()));
 
-        Log.d("ADDRESS", info.getAddress());
-        Log.d("REMINDERS", info.getReminders());
-        Log.d("RADIUS", info.getRadius());
-        Log.d("SUBJECT", info.getSubject());
-        Log.d("LAT",info.getLat());
-        Log.d("LON",info.getLon());
-        Log.d("DATE", info.getDate());
-        Log.d("TIME", info.getTime());
+//        Log.d("ADDRESS", info.getAddress());
+//        Log.d("REMINDERS", info.getReminders());
+//        Log.d("RADIUS", info.getRadius());
+//        Log.d("SUBJECT", info.getSubject());
+//        Log.d("LAT",info.getLat());
+//        Log.d("LON",info.getLon());
+//        Log.d("DATE", info.getDate());
+//        Log.d("TIME", info.getTime());
 
         //latitude and longitude are appended to the address itself
         String address = info.getAddress() + "|"+info.getLat()+";"+info.getLon();
 
-        Log.d("ADDRESS",address);
+        values.put(REMINDER_ID, info.getID());
         values.put(COLUMN_ADDRESS, address);
         values.put(COLUMN_REMINDERS, info.getReminders());
         values.put(COLUMN_RADIUS, info.getRadius());
@@ -101,6 +105,7 @@ public class RemindersDatabase extends SQLiteOpenHelper {
         if(allRows != null){
             if(allRows.moveToFirst()){
                 do{
+                    String reminderID = allRows.getString(allRows.getColumnIndex("reminder_id"));
                     String address = allRows.getString(allRows.getColumnIndex("address"));
                     String reminders = allRows.getString(allRows.getColumnIndex("reminders"));
                     String radius = allRows.getString(allRows.getColumnIndex("radius"));
@@ -113,7 +118,7 @@ public class RemindersDatabase extends SQLiteOpenHelper {
                             String lat = latlon.substring(0, latlon.indexOf(";"));
                             String lon = latlon.substring(latlon.indexOf(";") + 1);
                             address = address.substring(0, address.indexOf("|"));
-                            String[] value = {reminders, address, radius, lat, lon, date, time};
+                            String[] value = {reminders, address, radius, lat, lon, date, time, reminderID};
                             map.put(subject, value);
                         }
                     }
@@ -125,6 +130,15 @@ public class RemindersDatabase extends SQLiteOpenHelper {
 //        this.distance();
 //        return tableString;
         return map;
+    }
+
+    /**
+     * Updates the the database based if the user already did the reminder
+     * @param id
+     */
+    public void updateDatabase(int id){
+        db = this.getWritableDatabase();
+        db.execSQL("delete from "+TABLE_NAME+" where reminder_id='"+id+"'");
     }
 
     /**

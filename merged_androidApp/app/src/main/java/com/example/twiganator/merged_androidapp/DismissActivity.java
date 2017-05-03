@@ -21,15 +21,18 @@ public class DismissActivity extends Activity{
         super.onCreate(savedInstanceState);
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(getIntent().getIntExtra(NOTIFICATION_ID, -1));
-        finish(); // since finish() is called in onCreate(), onDestroy() will be called immediately
+        finish(); //will destroy the notification
     }
 
-    public static PendingIntent getDismissIntent(int notificationId, Context context) {
+    public PendingIntent getDismissIntent(int notificationId, Context context) {
         Intent intent = new Intent(context, DismissActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(NOTIFICATION_ID, notificationId);
 
         PendingIntent dismissIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+//        RemindersDatabase db = new RemindersDatabase(this);
+//        db.updateDatabase(notificationID);
         return dismissIntent;
     }
 

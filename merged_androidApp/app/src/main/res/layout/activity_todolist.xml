@@ -13,15 +13,6 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:hint="Contact Number(s) (Separate by Commas)" />
-
-            <EditText
                 android:id="@+id/reminderMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,6 +20,62 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:hint="Todo List" />
+
+            <MultiAutoCompleteTextView
+                android:id="@+id/multiAutoCompleteTextView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_below="@+id/autoCompleteTextView1"
+                android:layout_alignLeft="@+id/autoCompleteTextView1"
+                android:layout_alignStart="@+id/autoCompleteTextView1"
+                android:hint="Enter Contact(s)" />
+
+            <EditText
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/addAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="getLocation"
+                android:text="Add Location" />
+
+            <Button
+                android:id="@+id/addDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Add Date" />
+
+            <Button
+                android:id="@+id/addTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Add Time" />
 
             <Button
                 android:id="@+id/submitButton"

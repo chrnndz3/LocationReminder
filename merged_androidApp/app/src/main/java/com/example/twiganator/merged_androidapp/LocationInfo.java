@@ -16,7 +16,6 @@ public class LocationInfo {
     }
 
     public Double getLong(){
-        Log.d("GET", String.valueOf(this.longitude));
         return this.longitude;
 
     }
@@ -26,7 +25,6 @@ public class LocationInfo {
     }
 
     public Double getLat(){
-        Log.d("GET", String.valueOf(this.latitude));
         return this.latitude;
 
     }

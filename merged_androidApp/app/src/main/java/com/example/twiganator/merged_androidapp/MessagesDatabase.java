@@ -61,10 +61,10 @@ public class MessagesDatabase extends SQLiteOpenHelper {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        Log.d("CONTACT", contact);
-        Log.d("MESSAGE", message);
-        Log.d("DATE", date);
-        Log.d("TIME", time);
+//        Log.d("CONTACT", contact);
+//        Log.d("MESSAGE", message);
+//        Log.d("DATE", date);
+//        Log.d("TIME", time);
 
         values.put(COLUMN_CONTACT, contact);
         values.put(COLUMN_MESSAGE, message);
@@ -80,7 +80,7 @@ public class MessagesDatabase extends SQLiteOpenHelper {
      * @return
      */
     public ArrayList<String[]> checkDatabase(){
-        Log.d("CHECKING DATABSE", "INSIDE");
+//        Log.d("CHECKING DATABSE", "INSIDE");
 
         db = this.getWritableDatabase();
         Cursor allRows  = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
@@ -103,7 +103,7 @@ public class MessagesDatabase extends SQLiteOpenHelper {
 
     public void sendMessages(){
         db = this.getWritableDatabase();
-        Log.d("INSIDE SENDMESSAGES", "RETRIEVING RECORDS");
+//        Log.d("INSIDE SENDMESSAGES", "RETRIEVING RECORDS");
         ArrayList<String[]> results = this.checkDatabase();
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
@@ -112,13 +112,13 @@ public class MessagesDatabase extends SQLiteOpenHelper {
         String currentDate = dateTime.substring(0,dateTime.indexOf(" "));
         String currentTime = dateTime.substring(dateTime.indexOf(" ")+1);
 
-        Log.d("CURRENT DATE",currentDate);
-        Log.d("CURRENT TIME",currentTime);
+//        Log.d("CURRENT DATE",currentDate);
+//        Log.d("CURRENT TIME",currentTime);
 
         for(String[] value : results){
-            Log.d("INSIDE FOR LOOP", value[0]);
-            Log.d("DATE",value[2]);
-            Log.d("TIME", value[3]);
+//            Log.d("INSIDE FOR LOOP", value[0]);
+//            Log.d("DATE",value[2]);
+//            Log.d("TIME", value[3]);
             if(value[2].equals(currentDate)  || value[2].equalsIgnoreCase("EMPTY")){
                 if(value[3].equals(currentTime) || value[3].equalsIgnoreCase("EMPTY")){
                     Log.d("FOUND MATCH CONDITION",value[2]);

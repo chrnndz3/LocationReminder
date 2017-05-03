@@ -20,11 +20,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Handler;
+
 import com.example.twiganator.merged_androidapp.MainActivity;
 
 public class GPSTracker extends Service implements LocationListener {
@@ -158,6 +161,14 @@ public class GPSTracker extends Service implements LocationListener {
         return longitude;
     }
 
+//    public void setLatitude(Double lat){
+//        this.latitude = lat;
+//    }
+//
+//    public void setLongitude(Double lon){
+//        this.longitude = lon;
+//    }
+
     /**
      * Function to check GPS enabled
      * @return boolean
@@ -199,12 +210,14 @@ public class GPSTracker extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-
         String str = String.valueOf(MainActivity.reminderBtnclicked);
         Log.d("REMINDER BOOLEAN", str);
         //if(main_obj.getReminderBtnclicked() != true){
             String msg = "New Latitude: " + location.getLatitude()
                     + " New Longitude: " + location.getLongitude();
+
+//        location.setLatitude(location.getLatitude());
+//        location.setLatitude(location.getLongitude());
 
             Log.d("NEW LOCATION --- ", msg);
 
@@ -213,20 +226,22 @@ public class GPSTracker extends Service implements LocationListener {
             Map<String, String[]> results = obj_reminders.checkDatabase();
 
             if(results.isEmpty()){
-                Log.d("DATABASE", " IS EMPTY");
+                Log.d("DATABASE IS EMPTY", "is empty");
             }
             else{
+
                 for (Map.Entry<String, String[]> entry : results.entrySet()) {
                     System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
                     String [] values = entry.getValue();
                     String subject = entry.getKey();
+
+                    Integer reminderID = Integer.parseInt(values[7]);
                     Double latval = Double.parseDouble(values[3]);
                     Double lonval = Double.parseDouble(values[4]);
                     Integer radiusval = Integer.parseInt(values[2]);
-
                     String reminders = values[1];
-                    Log.d("TIME", values[6]);
-                    Log.d("DATE", values[5]);
+
+                    Log.d("REMINDER ID IN LOCATION", String.valueOf(reminderID));
                     Double dist = distance_obj.distanceBetweenGeoPoints(location.getLatitude(),location.getLongitude(), latval, lonval);
 
                     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
@@ -237,9 +252,17 @@ public class GPSTracker extends Service implements LocationListener {
 
 
                     if(dist <= radiusval || (values[5].equals(currentDate) && values[6].equals(currentTime))){
-                        Notifications notifications_obj = new Notifications();
-                        notifications_obj.sendNotification(subject, reminders, this.mContext);
 
+                        try{
+                            Thread.sleep(5000);
+
+
+                        }catch (InterruptedException e){
+                            Log.d("wait", "wait");
+                        }
+
+                        Notifications notifications_obj = new Notifications(this.mContext);
+                        notifications_obj.sendNotification(reminderID, subject, reminders, this.mContext);
                     }
                 }
             }

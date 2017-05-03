@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.Switch;
+import android.widget.CompoundButton;
 
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -26,11 +28,15 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.*;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 /**
  * Created by twiganator on 4/18/17.
  */
 
+/**
+ * Reminder Activity Java Class
+ */
 public class ReminderActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
     RemindersDatabase remindersDatabase_obj = new RemindersDatabase(this);
@@ -39,6 +45,8 @@ public class ReminderActivity extends AppCompatActivity implements DatePickerDia
     UserInputs userInputs_obj = new UserInputs();
     public String lat;
     public String lon;
+    Switch mySwitch;
+    boolean recur;
 
     Button addDate;
     Button addTime;
@@ -62,6 +70,28 @@ public class ReminderActivity extends AppCompatActivity implements DatePickerDia
         addDate = (Button) findViewById(R.id.addDate);
         addTime = (Button) findViewById(R.id.addTime);
 
+        mySwitch = (Switch) findViewById(R.id.mySwitch);
+
+        //set the switch to ON
+        mySwitch.setChecked(true);
+        //attach a listener to check for changes in state
+        mySwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+
+                Log.v("Switch State=", ""+isChecked);
+                if(isChecked){
+                    setTrue();
+                }
+                else{
+                    setFalse();
+                }
+            }
+        });
+
+        //Shows the date picker widget
         addDate.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -75,6 +105,7 @@ public class ReminderActivity extends AppCompatActivity implements DatePickerDia
             }
         });
 
+        //shows the time picker widgets
         addTime.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -86,6 +117,16 @@ public class ReminderActivity extends AppCompatActivity implements DatePickerDia
                 timePickerDialog.show();
             }
         });
+    }
+
+    public void setTrue(){
+        Log.d("INSIDE SET TRUE","TRUE");
+        this.recur = true;
+    }
+
+    public void setFalse(){
+        Log.d("INSIDE SET FALSE","FALSE");
+        this.recur = false;
     }
 
     /**
@@ -118,10 +159,6 @@ public class ReminderActivity extends AppCompatActivity implements DatePickerDia
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, this);
-
-//                Button addAddress = (Button) findViewById(R.id.addAddress);
-//                addAddress.setVisibility(View.INVISIBLE);
-
                 EditText location = (EditText) findViewById(R.id.location);
                 location.setText(place.getAddress());
                 location.setVisibility(View.VISIBLE);
@@ -136,8 +173,6 @@ public class ReminderActivity extends AppCompatActivity implements DatePickerDia
                 Log.d("Address:", address);
                 String lan_lon = latitude + ":" + longitude;
 
-//                locationInfo_obj.setLatitude(place.getLatLng().latitude);
-//                locationInfo_obj.setLongitude(place.getLatLng().latitude);
                 this.lat = latitude;
                 this.lon = longitude;
 
@@ -187,6 +222,13 @@ public class ReminderActivity extends AppCompatActivity implements DatePickerDia
         }
     }
 
+    /**
+     * Saves the date picked by the user and sets it to a text box
+     * @param view
+     * @param year
+     * @param month
+     * @param dayOfMonth
+     */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Log.d("YEAR", Integer.toString(year));
@@ -199,6 +241,12 @@ public class ReminderActivity extends AppCompatActivity implements DatePickerDia
         date.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Saves the time picked by the user and sets it to a text box
+     * @param view
+     * @param hourOfDay
+     * @param minute
+     */
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         Log.d("HOUR", Integer.toString(hourOfDay));
@@ -210,4 +258,3 @@ public class ReminderActivity extends AppCompatActivity implements DatePickerDia
         time.setVisibility(View.VISIBLE);
     }
 }
-

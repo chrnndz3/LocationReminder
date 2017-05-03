@@ -2,14 +2,22 @@ package com.example.twiganator.merged_androidapp;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContentResolverCompat;
 import android.test.mock.MockPackageManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,10 +32,17 @@ public class MainActivity extends Activity {
     GPSTracker gps;
     MessagesDatabase messages_obj = new MessagesDatabase(this);
 
+    ArrayList<String> names = new ArrayList<String>();
+    HashMap<String, String> contactsList = new HashMap<String, String>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        startService(new Intent(getBaseContext(), MyService.class));
+        contacts();
 
         // If no permission is allowed by user, then this will execute every time
         try {
@@ -45,7 +60,20 @@ public class MainActivity extends Activity {
             @Override
             public void run() {
                 messages_obj.sendMessages();
+
+                if(DisturbActivity.full_minutes > 0){
+                    try{
+                        Thread.sleep(DisturbActivity.full_minutes * 60);
+                        Log.d("DO NOT DISTURB IS ON", "DO NOT DISTURB IS ON");
+//                        Toast.makeText(MainActivity.this, "Do not disturb is on", Toast.LENGTH_SHORT).show();
+
+                    }catch (InterruptedException e){
+                        Log.d("Error", "could not pause activities");
+                    }
+                    DisturbActivity.full_minutes = 0;
+                }
             }
+
         },0, 10000);
 
 //        btnReminder = (Button) findViewById(R.id.addReminder);
@@ -108,6 +136,30 @@ public class MainActivity extends Activity {
 //                }
 //            }
 //        });
+    }
+
+    public void contacts(){
+
+        ContentResolver cr = getContentResolver();
+        Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,null, null, null, null);
+        while (cursor.moveToNext()) {
+            try{
+                String contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                String name=cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                String hasPhone = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+                if (Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+                    Cursor phones = getContentResolver().query( ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ contactId, null, null);
+                    while (phones.moveToNext()) {
+                        String phoneNumber = phones.getString(phones.getColumnIndex( ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        Log.d("NAME", name);
+                        Log.d("NUMBER", phoneNumber);
+                        this.names.add(name);
+                        this.contactsList.put(name, phoneNumber);
+                    }
+                    phones.close();
+                }
+            }catch(Exception e){}
+        }
     }
 
     public void onAddReminderClick(View v){
@@ -188,6 +240,8 @@ public class MainActivity extends Activity {
     public void onClickFriendReminder(View v){
         if(v.getId() == R.id.setFriendReminder){
             Intent i = new Intent(MainActivity.this, RemindFriendActivity.class);
+            i.putExtra("names",this.names);
+            i.putExtra("contactData", contactsList);
             startActivity(i);
         }
     }
@@ -202,6 +256,22 @@ public class MainActivity extends Activity {
     public void onClickTodoList(View v){
         if(v.getId() == R.id.todoLists){
             Intent i = new Intent(MainActivity.this, TodoListActivity.class);
+            i.putExtra("names",this.names);
+            i.putExtra("contactData", contactsList);
+            startActivity(i);
+        }
+    }
+
+    public void onClickDisturb(View v){
+        if(v.getId() == R.id.disturb){
+            Intent i = new Intent(MainActivity.this, DisturbActivity.class);
+            startActivity(i);
+        }
+    }
+
+    public void onClickStores(View v){
+        if(v.getId() == R.id.stores){
+            Intent i = new Intent(MainActivity.this, Nearby.class);
             startActivity(i);
         }
     }

@@ -97,7 +97,7 @@ public class SendMessageActivity extends Activity {
     }
 
     protected void sendSMSMessage() {
-        Log.d("INSIDE SENDMESSAGEFUNC","OK HERE");
+//        Log.d("INSIDE SENDMESSAGEFUNC","OK HERE");
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.SEND_SMS)
                 != PackageManager.PERMISSION_GRANTED) {

@@ -12,65 +12,63 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:layout_below="@+id/imageView"
-                android:layout_alignLeft="@+id/imageView"
-                android:layout_alignStart="@+id/imageView"
-                android:hint="Contact Name">
-                <requestFocus />
-            </AutoCompleteTextView>
-
             <EditText
-                android:id="@+id/reminderMessage"
+                android:id="@+id/type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:hint="Reminder Message" />
-
-
-            <EditText
-                android:id="@+id/date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
+                android:hint="Type (opitional)"
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/time"
+                android:id="@+id/keyword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="Keyword (optional)"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/radius"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Radius (miles)"
                 android:inputType="textPersonName" />
 
             <Button
-                android:id="@+id/addDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Add Date" />
-
-            <Button
-                android:id="@+id/addTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Add Time" />
-
-            <Button
-                android:id="@+id/submitButton"
+                android:id="@+id/submitBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="onSubmitClick"
-                android:text="Add Reminder" />
+                android:text="Submit" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="336dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nearby places:"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                    <ListView
+                        android:id="@android:id/list"
+                        android:layout_width="match_parent"
+                        android:layout_height="337dp" />
+                </LinearLayout>
+            </ScrollView>
 
         </LinearLayout>
     </LinearLayout>

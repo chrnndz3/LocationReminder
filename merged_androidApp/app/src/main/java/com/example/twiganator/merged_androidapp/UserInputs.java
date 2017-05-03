@@ -1,5 +1,6 @@
 package com.example.twiganator.merged_androidapp;
 
+import android.content.Intent;
 import android.util.Log;
 
 /**
@@ -16,6 +17,7 @@ public class UserInputs {
     public String lon;
     public String date;
     public String time;
+    public int id;
 
     public void setAddress(String address){
         this.address = address;
@@ -83,31 +85,12 @@ public class UserInputs {
     }
 
 
+    public void setID(int id){
+        this.id = id;
+    }
 
-//    public String getLatitude(){
-//        return this.latitude;
-//    }
-//
-//    public void setLatitude(String lat){
-//        this.latitude = lat;
-//    }
-//
-//    public String getLongitude(){
-//        return this.longitude;
-//    }
-//
-//    public void setLongitude(String lon){
-//        this.longitude = lon;
-//    }
-
-//    public void setLanLon(String lan_lon){
-//        Log.d("lan and lon", lan_lon);
-//        this.lan_lon = lan_lon;
-//    }
-//
-//    public String getLanLon(){
-//        Log.d("Inside Getter",this.lan_lon);
-//        return this.lan_lon;
-//    }
+    public int getID(){
+        return this.id;
+    }
 
 }

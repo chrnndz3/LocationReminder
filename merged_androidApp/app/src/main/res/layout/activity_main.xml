@@ -11,6 +11,13 @@
         android:weightSum="1">
 
         <Button
+            android:id="@+id/stores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickStores"
+            android:text="Nearby" />
+
+        <Button
             android:id="@+id/addReminder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,6 +58,13 @@
             android:layout_height="wrap_content"
             android:onClick="onClickTodoList"
             android:text="Send Group ToDo Lists" />
+
+        <Button
+            android:id="@+id/disturb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickDisturb"
+            android:text="Do not disturb" />
 
     </LinearLayout>
 </ScrollView>

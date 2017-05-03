@@ -15,9 +15,24 @@ import java.util.Date;
 
 public class Notifications {
 
-    public void sendNotification(String subject, String reminders, Context context){
-        int notificationID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
-        PendingIntent dismissIntent = DismissActivity.getDismissIntent(notificationID, context);
+    private final Context context;
+
+    //Constructor
+    public Notifications(Context context) {
+        this.context = context;
+    }
+
+    /**
+     * Creates notification based on location based and time/date
+     * @param notificationID
+     * @param subject
+     * @param reminders
+     * @param context
+     */
+    public void sendNotification(int notificationID, String subject, String reminders, Context context){
+
+        DismissActivity dis_obj = new DismissActivity();
+        PendingIntent dismissIntent = dis_obj.getDismissIntent(notificationID, context);
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
@@ -36,7 +51,9 @@ public class Notifications {
 
         //Create notification
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
         manager.notify(notificationID, builder.build());
+
+//        RemindersDatabase db = new RemindersDatabase(this.context);
+//        db.updateDatabase(notificationID);
     }
 }
